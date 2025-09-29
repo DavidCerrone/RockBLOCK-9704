@@ -130,6 +130,8 @@ void rbRegisterCallbacks(const rbCallbacks_t *callbacks);
         #define SERIAL_CONTEXT_SETUP_FUNC setContextWindows
     #elif ARDUINO
         #define SERIAL_CONTEXT_SETUP_FUNC setContextArduino
+    #elif defined(__ZEPHYR__)
+        #define SERIAL_CONTEXT_SETUP_FUNC setContextZephyr
     #endif
 #endif
 

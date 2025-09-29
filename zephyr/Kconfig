@@ -1,0 +1,105 @@
+menuconfig IRIDIUM
+	bool "Iridium satellite communication support"
+	help
+	  Enable support for Iridium satellite communication using RockBLOCK 9704 module.
+
+if IRIDIUM
+
+config IRIDIUM_UART_DEVICE
+	string "UART device name for Iridium communication"
+	default "arduino-serial"
+	help
+	  Name of the UART device to use for communication with the RockBLOCK 9704 module.
+	  This should match the device tree alias for the UART you want to use.
+
+config IRIDIUM_BAUD_RATE
+	int "UART baud rate for Iridium communication"
+	default 230400
+	help
+	  Baud rate for UART communication with RockBLOCK 9704 module.
+	  This is fixed at 230400 as required by the modem hardware.
+
+config IRIDIUM_QUEUE_SIZE
+	int "Message queue size"
+	default 1
+	range 1 10
+	help
+	  Maximum number of messages that can be queued (both incoming and outgoing).
+
+config IRIDIUM_ENABLE_GPIO
+	bool "Enable GPIO control for RockBLOCK power management"
+	default n
+	help
+	  Enable GPIO pins for controlling RockBLOCK power enable and boot signals.
+
+if IRIDIUM_ENABLE_GPIO
+
+config IRIDIUM_POWER_ENABLE_GPIO
+	string "GPIO device for power enable"
+	default "gpio0"
+	help
+	  GPIO device name for power enable control.
+
+config IRIDIUM_POWER_ENABLE_PIN
+	int "GPIO pin for power enable"
+	default 0
+	help
+	  GPIO pin number for power enable control.
+
+config IRIDIUM_IRIDIUM_ENABLE_GPIO
+	string "GPIO device for Iridium enable"
+	default "gpio0"
+	help
+	  GPIO device name for Iridium enable control.
+
+config IRIDIUM_IRIDIUM_ENABLE_PIN
+	int "GPIO pin for Iridium enable"
+	default 1
+	help
+	  GPIO pin number for Iridium enable control.
+
+config IRIDIUM_BOOT_GPIO
+	string "GPIO device for boot status"
+	default "gpio0"
+	help
+	  GPIO device name for boot status monitoring.
+
+config IRIDIUM_BOOT_PIN
+	int "GPIO pin for boot status"
+	default 2
+	help
+	  GPIO pin number for boot status monitoring.
+
+endif # IRIDIUM_ENABLE_GPIO
+
+config IRIDIUM_ENABLE_KERMIT
+	bool "Enable Kermit protocol support for firmware updates"
+	default n
+	help
+	  Enable Kermit protocol support for updating RockBLOCK firmware.
+	  This increases code size significantly and is usually not needed.
+
+config IRIDIUM_LOG_LEVEL
+	int "Iridium module log level"
+	default 3
+	range 0 4
+	help
+	  Log level for Iridium module:
+	  0 = Off, 1 = Error, 2 = Warning, 3 = Info, 4 = Debug
+
+config IRIDIUM_AUTO_TELEMETRY
+	bool "Enable automatic telemetry transmission"
+	default y
+	help
+	  Automatically send telemetry data at regular intervals via Iridium.
+
+config IRIDIUM_TELEMETRY_INTERVAL
+	int "Telemetry transmission interval (seconds)"
+	default 300
+	range 60 3600
+	depends on IRIDIUM_AUTO_TELEMETRY
+	help
+	  Interval in seconds between automatic telemetry transmissions.
+	  Default is 300 seconds (5 minutes).
+
+endif # IRIDIUM

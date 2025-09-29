@@ -22,6 +22,8 @@ extern "C" {
     #include "serial_presets/serial_windows/serial_windows.h"
 #elif ARDUINO
     #include "serial_presets/serial_arduino/serial_arduino.h"
+#elif defined(__ZEPHYR__)
+    #include "serial_presets/serial_zephyr/serial_zephyr.h"
 #endif
 
 #define SERIAL_PORT_LENGTH 50U // Should be more than enough, don't want to use PATH_MAX as it will be wasteful
